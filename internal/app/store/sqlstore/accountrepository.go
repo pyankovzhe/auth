@@ -11,8 +11,6 @@ type AccountRepository struct {
 	store *Store
 }
 
-// TODO: make test
-
 func (r *AccountRepository) Create(a *model.Account) error {
 	if err := a.Validate(); err != nil {
 		return err
@@ -47,7 +45,19 @@ func (r *AccountRepository) FindByLogin(login string) (*model.Account, error) {
 }
 
 func (r *AccountRepository) Find(id int) (*model.Account, error) {
-	return &model.Account{}, nil
+	a := &model.Account{}
+
+	if err := r.store.db.QueryRow(
+		"SELECT id, login, encrypted_password FROM accounts WHERE id = $1",
+		id,
+	).Scan(&a.ID, &a.Login, &a.EncryptedPassword); err != nil {
+		if err == sql.ErrNoRows {
+			return nil, store.ErrRecordNotFound
+		}
+		return nil, err
+	}
+
+	return a, nil
 }
 
 // func (r *Repo) GetUsers(ctx context.Context) ([]repository.User, error) {
