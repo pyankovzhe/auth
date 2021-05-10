@@ -35,3 +35,18 @@ func TestAccountRepository_FindByLogin(t *testing.T) {
 	assert.NoError(t, err)
 	assert.NotNil(t, a)
 }
+
+func TestAccountRepository_Find(t *testing.T) {
+	db, teardown := sqlstore.TestDB(t, databaseURL)
+	defer teardown("accounts")
+
+	s := sqlstore.New(db)
+	_, err := s.Account().Find(1)
+	assert.EqualError(t, err, store.ErrRecordNotFound.Error())
+
+	a := model.TestAccount(t)
+	s.Account().Create(a)
+	a, err = s.Account().Find(a.ID)
+	assert.NoError(t, err)
+	assert.NotNil(t, a)
+}

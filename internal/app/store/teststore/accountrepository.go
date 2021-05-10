@@ -27,8 +27,13 @@ func (r *AccountRepository) Create(a *model.Account) error {
 }
 
 // TODO: implement
-func (r *AccountRepository) Find(int) (*model.Account, error) {
-	return &model.Account{}, nil
+func (r *AccountRepository) Find(id int) (*model.Account, error) {
+	a, ok := r.accounts[id]
+	if !ok {
+		return nil, store.ErrRecordNotFound
+	}
+
+	return a, nil
 }
 
 // TODO: implement
