@@ -10,7 +10,8 @@ import (
 	"time"
 
 	_ "github.com/jackc/pgx/v4/stdlib"
-	"github.com/pyankovzhe/lingo/auth/internal/app/store/sqlstore"
+	"github.com/pyankovzhe/auth/internal/app/producer/kafkaproducer"
+	"github.com/pyankovzhe/auth/internal/app/store/sqlstore"
 	"github.com/sirupsen/logrus"
 )
 
@@ -19,8 +20,12 @@ func Start(config *Config, ctx context.Context) error {
 	if err != nil {
 		return err
 	}
-
 	defer db.Close()
+
+	kafkaProducer, err := kafkaproducer.New(ctx, config.KafkaURL, "accounts", 2)
+	if err != nil {
+		return err
+	}
 
 	store := sqlstore.New(db)
 	logger := logrus.New()

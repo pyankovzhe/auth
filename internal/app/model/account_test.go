@@ -3,7 +3,7 @@ package model_test
 import (
 	"testing"
 
-	"github.com/pyankovzhe/lingo/auth/internal/app/model"
+	"github.com/pyankovzhe/auth/internal/app/model"
 	"github.com/stretchr/testify/assert"
 )
 

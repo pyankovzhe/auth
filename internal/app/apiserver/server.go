@@ -9,7 +9,8 @@ import (
 	"github.com/go-chi/chi"
 	"github.com/go-chi/chi/middleware"
 	"github.com/go-chi/render"
-	"github.com/pyankovzhe/lingo/auth/internal/app/store"
+	"github.com/pyankovzhe/auth/internal/app/producer/kafkaproducer"
+	"github.com/pyankovzhe/auth/internal/app/store"
 	"github.com/sirupsen/logrus"
 )
 
@@ -21,17 +22,19 @@ type ctxKey int8
 
 type server struct {
 	*http.Server
-	logger *logrus.Logger
-	store  store.Store
+	logger   *logrus.Logger
+	store    store.Store
+	producer *kafkaproducer.Producer
 }
 
-func newServer(store store.Store, logger *logrus.Logger, serverAddr string) *server {
+func newServer(store store.Store, logger *logrus.Logger, serverAddr string, producer *kafkaproducer.Producer) *server {
 	s := &server{
 		Server: &http.Server{
 			Addr: serverAddr,
 		},
-		logger: logger,
-		store:  store,
+		logger:   logger,
+		store:    store,
+		producer: producer,
 	}
 
 	r := chi.NewRouter()

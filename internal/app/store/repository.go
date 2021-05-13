@@ -1,6 +1,6 @@
 package store
 
-import "github.com/pyankovzhe/lingo/auth/internal/app/model"
+import "github.com/pyankovzhe/auth/internal/app/model"
 
 type AccountRepository interface {
 	Create(*model.Account) error

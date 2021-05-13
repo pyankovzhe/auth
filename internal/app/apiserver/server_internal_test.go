@@ -7,8 +7,8 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"github.com/pyankovzhe/lingo/auth/internal/app/model"
-	"github.com/pyankovzhe/lingo/auth/internal/app/store/teststore"
+	"github.com/pyankovzhe/auth/internal/app/model"
+	"github.com/pyankovzhe/auth/internal/app/store/teststore"
 	"github.com/sirupsen/logrus"
 	"github.com/stretchr/testify/assert"
 )

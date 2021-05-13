@@ -7,7 +7,7 @@ import (
 	"os"
 
 	"github.com/BurntSushi/toml"
-	"github.com/pyankovzhe/lingo/auth/internal/app/apiserver"
+	"github.com/pyankovzhe/auth/internal/app/apiserver"
 )
 
 var (

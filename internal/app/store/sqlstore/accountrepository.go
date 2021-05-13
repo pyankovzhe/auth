@@ -3,8 +3,8 @@ package sqlstore
 import (
 	"database/sql"
 
-	"github.com/pyankovzhe/lingo/auth/internal/app/model"
-	"github.com/pyankovzhe/lingo/auth/internal/app/store"
+	"github.com/pyankovzhe/auth/internal/app/model"
+	"github.com/pyankovzhe/auth/internal/app/store"
 )
 
 type AccountRepository struct {

@@ -5,7 +5,7 @@ import (
 	"net/http"
 
 	"github.com/go-chi/render"
-	"github.com/pyankovzhe/lingo/auth/internal/app/model"
+	"github.com/pyankovzhe/auth/internal/app/model"
 	"golang.org/x/crypto/bcrypt"
 )
 
@@ -43,10 +43,13 @@ func (s *server) CreateAccount(w http.ResponseWriter, r *http.Request) {
 		Password: req.Password,
 	}
 
+	// TODO: take out from handlers
 	if err := s.store.Account().Create(a); err != nil {
 		render.Render(w, r, &ErrResponse{Code: http.StatusUnprocessableEntity, Message: err.Error()})
 		return
 	}
+
+	// TODO: produce message to kafka
 
 	render.Status(r, http.StatusCreated)
 	render.Render(w, r, &accountResponse{Account: a})

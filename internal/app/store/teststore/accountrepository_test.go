@@ -3,9 +3,9 @@ package teststore_test
 import (
 	"testing"
 
-	"github.com/pyankovzhe/lingo/auth/internal/app/model"
-	"github.com/pyankovzhe/lingo/auth/internal/app/store"
-	"github.com/pyankovzhe/lingo/auth/internal/app/store/teststore"
+	"github.com/pyankovzhe/auth/internal/app/model"
+	"github.com/pyankovzhe/auth/internal/app/store"
+	"github.com/pyankovzhe/auth/internal/app/store/teststore"
 	"github.com/stretchr/testify/assert"
 )
 
