@@ -23,6 +23,16 @@ func New(ctx context.Context, address string, topic string, partition int) (*Pro
 	return &Producer{conn: conn}, nil
 }
 
-func (p *Producer) Publish() {
-	// TODO: implement Publish message to kafka
+func (p *Producer) Close() {
+	p.conn.Close()
+}
+
+func (p *Producer) Publish(value []byte) error {
+	_, err := p.conn.WriteMessages(kafka.Message{Value: []byte("one!")})
+
+	if err != nil {
+		return err
+	}
+
+	return nil
 }

@@ -50,6 +50,13 @@ func (s *server) CreateAccount(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// TODO: produce message to kafka
+	accInBytes, err := json.Marshal(a)
+	if err != nil {
+		render.Render(w, r, &ErrResponse{Code: http.StatusUnprocessableEntity, Message: err.Error()})
+		return
+	}
+
+	s.producer.Publish([]byte(accInBytes))
 
 	render.Status(r, http.StatusCreated)
 	render.Render(w, r, &accountResponse{Account: a})

@@ -26,11 +26,12 @@ func Start(config *Config, ctx context.Context) error {
 	if err != nil {
 		return err
 	}
+	defer kafkaProducer.Close()
 
 	store := sqlstore.New(db)
 	logger := logrus.New()
 
-	srv := newServer(store, logger, config.BindAddr)
+	srv := newServer(store, logger, config.BindAddr, kafkaProducer)
 
 	go func(*logrus.Logger) {
 		if err := srv.ListenAndServe(); err != nil {
