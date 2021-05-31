@@ -66,7 +66,7 @@ func (s *server) configureRouter(router *chi.Mux) {
 	router.Mount("/api", s.apiRouter())
 }
 
-// A completely separate router for administrator routes
+// A completely separate router for api routes
 func (s *server) apiRouter() http.Handler {
 	r := chi.NewRouter()
 	r.Use(s.AuthorizedOnly)
