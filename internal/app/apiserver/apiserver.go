@@ -16,7 +16,7 @@ import (
 )
 
 func Start(config *Config, ctx context.Context) error {
-	db, err := newDB(config.DatabseURL, ctx)
+	db, err := newDB(config.DatabaseURL, ctx)
 	if err != nil {
 		return err
 	}
