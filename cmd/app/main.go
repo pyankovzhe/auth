@@ -33,6 +33,7 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
+
 	if err := apiserver.Start(config, ctx); err != nil {
 		log.Fatal(err)
 	}

@@ -10,7 +10,6 @@ type AccountRepository struct {
 	accounts map[int]*model.Account
 }
 
-// TODO: make test
 func (r *AccountRepository) Create(a *model.Account) error {
 	if err := a.Validate(); err != nil {
 		return err
@@ -26,7 +25,6 @@ func (r *AccountRepository) Create(a *model.Account) error {
 	return nil
 }
 
-// TODO: implement
 func (r *AccountRepository) Find(id int) (*model.Account, error) {
 	a, ok := r.accounts[id]
 	if !ok {
@@ -35,8 +33,6 @@ func (r *AccountRepository) Find(id int) (*model.Account, error) {
 
 	return a, nil
 }
-
-// TODO: implement
 
 func (r *AccountRepository) FindByLogin(login string) (*model.Account, error) {
 	for _, acc := range r.accounts {
