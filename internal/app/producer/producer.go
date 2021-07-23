@@ -1,5 +1,5 @@
 package producer
 
 type Producer interface {
-	Publish()
+	Publish([]byte) error
 }

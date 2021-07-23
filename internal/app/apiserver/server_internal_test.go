@@ -8,13 +8,14 @@ import (
 	"testing"
 
 	"github.com/pyankovzhe/auth/internal/app/model"
+	"github.com/pyankovzhe/auth/internal/app/producer/testproducer"
 	"github.com/pyankovzhe/auth/internal/app/store/teststore"
 	"github.com/sirupsen/logrus"
 	"github.com/stretchr/testify/assert"
 )
 
 func TestServer_Signup(t *testing.T) {
-	s := newServer(teststore.New(), logrus.New(), "fakeaddr")
+	s := newServer(teststore.New(), logrus.New(), "fakeaddr", &testproducer.Producer{})
 
 	testCases := []struct {
 		name         string
@@ -69,7 +70,7 @@ func TestServer_Signin(t *testing.T) {
 	store := teststore.New()
 	store.Account().Create(a)
 
-	s := newServer(store, logrus.New(), "fakeaddr")
+	s := newServer(store, logrus.New(), "fakeaddr", &testproducer.Producer{})
 	testcases := []struct {
 		name         string
 		payload      interface{}

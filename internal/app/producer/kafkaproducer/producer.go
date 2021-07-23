@@ -2,6 +2,7 @@ package kafkaproducer
 
 import (
 	"context"
+	"fmt"
 	"time"
 
 	"github.com/segmentio/kafka-go"
@@ -12,13 +13,12 @@ type Producer struct {
 }
 
 func New(ctx context.Context, address string, topic string, partition int) (*Producer, error) {
-	conn, err := kafka.DialLeader(context.Background(), "tcp", address, "accounts", 2)
-
+	conn, err := kafka.DialLeader(context.Background(), "tcp", address, "accounts", partition)
 	if err != nil {
 		return nil, err
 	}
 
-	conn.SetWriteDeadline(time.Now().Add(time.Second))
+	conn.SetDeadline(time.Now().Add(time.Second * 10))
 
 	return &Producer{conn: conn}, nil
 }
@@ -28,9 +28,17 @@ func (p *Producer) Close() {
 }
 
 func (p *Producer) Publish(value []byte) error {
-	_, err := p.conn.WriteMessages(kafka.Message{Value: []byte("one!")})
+	_, err := p.conn.WriteMessages(
+		kafka.Message{
+			Topic:     "accounts",
+			Partition: 0,
+			Key:       []byte{23},
+			Value:     value,
+		},
+	)
 
 	if err != nil {
+		fmt.Println("err", err)
 		return err
 	}
 

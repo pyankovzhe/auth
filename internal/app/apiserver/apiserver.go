@@ -22,7 +22,8 @@ func Start(config *Config, ctx context.Context) error {
 	}
 	defer db.Close()
 
-	kafkaProducer, err := kafkaproducer.New(ctx, config.KafkaURL, "accounts", 2)
+	kafkaProducer, err := kafkaproducer.New(ctx, config.KafkaURL, "accounts", 0)
+
 	if err != nil {
 		return err
 	}

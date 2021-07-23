@@ -9,7 +9,7 @@ import (
 	"github.com/go-chi/chi"
 	"github.com/go-chi/chi/middleware"
 	"github.com/go-chi/render"
-	"github.com/pyankovzhe/auth/internal/app/producer/kafkaproducer"
+	"github.com/pyankovzhe/auth/internal/app/producer"
 	"github.com/pyankovzhe/auth/internal/app/store"
 	"github.com/sirupsen/logrus"
 )
@@ -24,10 +24,10 @@ type server struct {
 	*http.Server
 	logger   *logrus.Logger
 	store    store.Store
-	producer *kafkaproducer.Producer
+	producer producer.Producer
 }
 
-func newServer(store store.Store, logger *logrus.Logger, serverAddr string, producer *kafkaproducer.Producer) *server {
+func newServer(store store.Store, logger *logrus.Logger, serverAddr string, producer producer.Producer) *server {
 	s := &server{
 		Server: &http.Server{
 			Addr: serverAddr,

@@ -1,4 +1,4 @@
 bind_addr = ":8081"
 log_level = "debug"
 database_url = "host=localhost port=5432 user=postgres password=postgres dbname=auth_dev sslmode=disable"
-kafka_url = "localhost:9092"
+kafka_url = "localhost:9093"
