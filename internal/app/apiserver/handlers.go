@@ -43,6 +43,12 @@ func (s *server) CreateAccount(w http.ResponseWriter, r *http.Request) {
 		Password: req.Password,
 	}
 
+	if err := a.Validate(); err != nil {
+		render.Render(w, r, &ErrResponse{Code: http.StatusUnprocessableEntity, Message: err.Error()})
+
+		return
+	}
+
 	// TODO: take out from handlers
 	if err := s.store.Account().Create(a); err != nil {
 		render.Render(w, r, &ErrResponse{Code: http.StatusUnprocessableEntity, Message: err.Error()})
@@ -55,7 +61,7 @@ func (s *server) CreateAccount(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if err := s.producer.Publish([]byte(accInBytes)); err != nil {
+	if err := s.producer.Publish(accInBytes); err != nil {
 		render.Render(w, r, &ErrResponse{Code: http.StatusUnprocessableEntity, Message: err.Error()})
 		return
 	}

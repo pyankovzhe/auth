@@ -15,7 +15,10 @@ import (
 )
 
 func TestServer_Signup(t *testing.T) {
-	s := newServer(teststore.New(), logrus.New(), "fakeaddr", &testproducer.Producer{})
+	store := teststore.New()
+	s := newServer(store, logrus.New(), "fakeaddr", &testproducer.Producer{})
+	a := model.TestAccount(t)
+	store.Account().Create(a)
 
 	testCases := []struct {
 		name         string

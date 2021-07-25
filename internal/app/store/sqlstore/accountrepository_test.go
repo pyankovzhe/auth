@@ -17,6 +17,11 @@ func TestAccountRepository_Create(t *testing.T) {
 	a := model.TestAccount(t)
 	assert.NoError(t, s.Account().Create(a))
 	assert.NotNil(t, a)
+
+	err := s.Account().Create(a)
+	if err == nil {
+		t.Errorf("Expected to get error about unique constraint, got nil")
+	}
 }
 
 func TestAccountRepository_FindByLogin(t *testing.T) {

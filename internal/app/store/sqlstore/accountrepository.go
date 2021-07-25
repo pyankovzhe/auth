@@ -12,10 +12,6 @@ type AccountRepository struct {
 }
 
 func (r *AccountRepository) Create(a *model.Account) error {
-	if err := a.Validate(); err != nil {
-		return err
-	}
-
 	if err := a.EncryptPassword(); err != nil {
 		return err
 	}

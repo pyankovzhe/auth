@@ -18,8 +18,6 @@ func New(ctx context.Context, address string, topic string, partition int) (*Pro
 		return nil, err
 	}
 
-	conn.SetDeadline(time.Now().Add(time.Second * 10))
-
 	return &Producer{conn: conn}, nil
 }
 
@@ -28,6 +26,8 @@ func (p *Producer) Close() {
 }
 
 func (p *Producer) Publish(value []byte) error {
+	p.conn.SetDeadline(time.Now().Add(time.Second * 1))
+
 	_, err := p.conn.WriteMessages(
 		kafka.Message{
 			Topic:     "accounts",
