@@ -13,7 +13,7 @@ type Producer struct {
 }
 
 func New(ctx context.Context, address string, topic string, partition int) (*Producer, error) {
-	conn, err := kafka.DialLeader(context.Background(), "tcp", address, "accounts", partition)
+	conn, err := kafka.DialLeader(ctx, "tcp", address, topic, partition)
 	if err != nil {
 		return nil, err
 	}
@@ -26,7 +26,7 @@ func (p *Producer) Close() {
 }
 
 func (p *Producer) Publish(value []byte) error {
-	p.conn.SetDeadline(time.Now().Add(time.Second * 1))
+	p.conn.SetWriteDeadline(time.Now().Add(time.Second * 1))
 
 	_, err := p.conn.WriteMessages(
 		kafka.Message{

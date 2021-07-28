@@ -4,7 +4,6 @@ import (
 	"context"
 	"net/http"
 	"strings"
-	"time"
 
 	"github.com/go-chi/chi"
 	"github.com/go-chi/chi/middleware"
@@ -56,17 +55,11 @@ func (s *server) configureRouter(router *chi.Mux) {
 		w.Write([]byte("JWT Auth Server"))
 	})
 
-	router.Get("/sleep-debug", func(w http.ResponseWriter, r *http.Request) {
-		time.Sleep(10 * time.Second)
-		w.Write([]byte("Ok"))
-	})
-
 	router.Post("/signup", s.CreateAccount)
 	router.Post("/signin", s.SignIn)
 	router.Mount("/api", s.apiRouter())
 }
 
-// A completely separate router for api routes
 func (s *server) apiRouter() http.Handler {
 	r := chi.NewRouter()
 	r.Use(s.AuthorizedOnly)
