@@ -3,6 +3,7 @@ package sqlstore
 import (
 	"database/sql"
 
+	"github.com/google/uuid"
 	"github.com/pyankovzhe/auth/internal/app/model"
 	"github.com/pyankovzhe/auth/internal/app/store"
 )
@@ -40,7 +41,7 @@ func (r *AccountRepository) FindByLogin(login string) (*model.Account, error) {
 	return a, nil
 }
 
-func (r *AccountRepository) Find(id int) (*model.Account, error) {
+func (r *AccountRepository) Find(id uuid.UUID) (*model.Account, error) {
 	a := &model.Account{}
 
 	if err := r.store.db.QueryRow(

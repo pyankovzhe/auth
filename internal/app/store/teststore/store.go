@@ -1,6 +1,7 @@
 package teststore
 
 import (
+	"github.com/google/uuid"
 	"github.com/pyankovzhe/auth/internal/app/model"
 	"github.com/pyankovzhe/auth/internal/app/store"
 )
@@ -20,7 +21,7 @@ func (s *Store) Account() store.AccountRepository {
 
 	s.accountRepo = &AccountRepository{
 		store:    s,
-		accounts: make(map[int]*model.Account),
+		accounts: make(map[uuid.UUID]*model.Account),
 	}
 
 	return s.accountRepo

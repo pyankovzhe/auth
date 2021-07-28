@@ -32,7 +32,6 @@ func (p *Producer) Publish(value []byte) error {
 		kafka.Message{
 			Topic:     "accounts",
 			Partition: 0,
-			Key:       []byte{23},
 			Value:     value,
 		},
 	)

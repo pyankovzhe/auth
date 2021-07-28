@@ -1,13 +1,14 @@
 package teststore
 
 import (
+	"github.com/google/uuid"
 	"github.com/pyankovzhe/auth/internal/app/model"
 	"github.com/pyankovzhe/auth/internal/app/store"
 )
 
 type AccountRepository struct {
 	store    *Store
-	accounts map[int]*model.Account
+	accounts map[uuid.UUID]*model.Account
 }
 
 func (r *AccountRepository) Create(a *model.Account) error {
@@ -19,13 +20,13 @@ func (r *AccountRepository) Create(a *model.Account) error {
 		return err
 	}
 
-	a.ID = len(r.accounts) + 1
+	a.ID = uuid.New()
 	r.accounts[a.ID] = a
 
 	return nil
 }
 
-func (r *AccountRepository) Find(id int) (*model.Account, error) {
+func (r *AccountRepository) Find(id uuid.UUID) (*model.Account, error) {
 	a, ok := r.accounts[id]
 	if !ok {
 		return nil, store.ErrRecordNotFound

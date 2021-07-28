@@ -3,6 +3,7 @@ package teststore_test
 import (
 	"testing"
 
+	"github.com/google/uuid"
 	"github.com/pyankovzhe/auth/internal/app/model"
 	"github.com/pyankovzhe/auth/internal/app/store"
 	"github.com/pyankovzhe/auth/internal/app/store/teststore"
@@ -32,7 +33,7 @@ func TestAccountRepository_FindByLogin(t *testing.T) {
 
 func TestAccountRepository_Find(t *testing.T) {
 	s := teststore.New()
-	_, err := s.Account().Find(1)
+	_, err := s.Account().Find(uuid.New())
 	assert.EqualError(t, err, store.ErrRecordNotFound.Error())
 
 	a := model.TestAccount(t)

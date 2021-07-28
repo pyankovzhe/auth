@@ -1,15 +1,17 @@
 package model
 
 import (
+	"github.com/google/uuid"
+
 	validation "github.com/go-ozzo/ozzo-validation"
 	"golang.org/x/crypto/bcrypt"
 )
 
 type Account struct {
-	ID                int    `json:"id"`
-	Login             string `json:"login"`
-	Password          string `json:"password,omitempty"`
-	EncryptedPassword string `json:"-"`
+	ID                uuid.UUID `json:"id"`
+	Login             string    `json:"login"`
+	Password          string    `json:"password,omitempty"`
+	EncryptedPassword string    `json:"-"`
 }
 
 func (a *Account) Validate() error {

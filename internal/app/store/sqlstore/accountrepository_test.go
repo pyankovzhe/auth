@@ -3,6 +3,7 @@ package sqlstore_test
 import (
 	"testing"
 
+	"github.com/google/uuid"
 	"github.com/pyankovzhe/auth/internal/app/model"
 	"github.com/pyankovzhe/auth/internal/app/store"
 	"github.com/pyankovzhe/auth/internal/app/store/sqlstore"
@@ -46,7 +47,7 @@ func TestAccountRepository_Find(t *testing.T) {
 	defer teardown("accounts")
 
 	s := sqlstore.New(db)
-	_, err := s.Account().Find(1)
+	_, err := s.Account().Find(uuid.New())
 	assert.EqualError(t, err, store.ErrRecordNotFound.Error())
 
 	a := model.TestAccount(t)
