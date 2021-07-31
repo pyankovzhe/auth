@@ -3,10 +3,15 @@ package apiserver
 import (
 	"encoding/json"
 	"net/http"
+	"time"
 
 	"github.com/go-chi/render"
+	"github.com/google/uuid"
 	"github.com/pyankovzhe/auth/internal/app/model"
+	pb "github.com/pyankovzhe/auth/pkg/proto/v1/eventpb"
 	"golang.org/x/crypto/bcrypt"
+	"google.golang.org/protobuf/proto"
+	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 )
 
 type accountRequest struct {
@@ -55,13 +60,30 @@ func (s *server) CreateAccount(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	accInBytes, err := json.Marshal(a)
+	// accInBytes, err := json.Marshal(a)
+	// if err != nil {
+	// 	render.Render(w, r, &ErrResponse{Code: http.StatusUnprocessableEntity, Message: err.Error()})
+	// 	return
+	// }
+
+	event := &pb.AccountEvent{
+		Uuid:      uuid.New().String(),
+		Producer:  "auth-service",
+		EventTime: timestamppb.New(time.Now()),
+		Kind:      pb.EventKind_CREATED,
+		Data: &pb.Account{
+			Uuid:  a.ID.String(),
+			Login: a.Login,
+		},
+	}
+
+	out, err := proto.Marshal(event)
 	if err != nil {
 		render.Render(w, r, &ErrResponse{Code: http.StatusUnprocessableEntity, Message: err.Error()})
 		return
 	}
 
-	if err := s.producer.Publish(accInBytes); err != nil {
+	if err := s.producer.Publish(out); err != nil {
 		render.Render(w, r, &ErrResponse{Code: http.StatusUnprocessableEntity, Message: err.Error()})
 		return
 	}
